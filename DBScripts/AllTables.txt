@@ -1,0 +1,30 @@
+CREATE TABLE Users (
+	userid int IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) ,
+	password  VARCHAR(50) ,
+    Firstname VARCHAR(50),
+    Lastname VARCHAR(50),
+    Address VARCHAR(255),
+    Phone VARCHAR(20),
+    MailId VARCHAR(100),
+    UserType INT
+);
+ 
+
+ INSERT INTO Users (Username, password, Firstname, Lastname, Address, Phone, MailId, UserType) VALUES
+('jdoe',    'Password123', 'John',    'Doe',     '123 Main St, NY',          '123-456-7890', 'jdoe@example.com', 1),
+('asmith',  'Secure456',   'Alice',   'Smith',   '456 Oak Ave, CA',          '321-654-0987', 'asmith@example.com', 2),
+('bwayne',  'Batman$1',    'Bruce',   'Wayne',   '1007 Mountain Dr, Gotham', '555-123-4567', 'bwayne@wayne.com', 1),
+('ckent',   'Superman42',  'Clark',   'Kent',    '344 Clinton St, Metro',    '555-000-1111', 'ckent@planet.com', 2),
+('pparker', 'Sp1d3rWeb!',  'Peter',   'Parker',  '20 Ingram St, NY',         '555-222-3333', 'pparker@bugle.com', 1),
+('nwilson', 'Pass7890',    'Nancy',   'Wilson',  '789 Elm St, TX',           '555-444-5555', 'nwilson@example.com', 1),
+('tstark',  'IronMan#3000','Tony',    'Stark',   '10880 Malibu Point, CA',  '555-666-7777', 'tstark@stark.com', 2),
+('srogers', 'Shield$1',    'Steve',   'Rogers',  '569 Brooklyn St, NY',      '555-888-9999', 'srogers@example.com', 1),
+('bwilliams','Welcome2025','Beth',    'Williams','101 Pine Rd, CO',         '555-000-1234', 'bwilliams@example.com', 2),
+('djohnson','TestUser!',   'David',   'Johnson', '11 Sunset Blvd, FL',       '555-111-2222', 'djohnson@example.com', 1);
+
+
+update users
+SEt password='password'
+
+SELECT * FROM users
