@@ -10,6 +10,6 @@
         public string Phone { get; set; }
         public string MailId { get; set; }
         public int UserType { get; set; }
-        public int userid { get; set; }
+        public int UserId { get; set; }
     }
 }

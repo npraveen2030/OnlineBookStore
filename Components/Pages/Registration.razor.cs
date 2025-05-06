@@ -6,6 +6,8 @@ namespace BlazorApp.Components.Pages
 {
    public partial class Registration : ComponentBase
     {
+        [Inject]
+        NavigationManager Nav { get; set; }
         // RegisterModel instance to hold the form data
         public UserDetailDto RegFormDetails { get; set; } = new();
 

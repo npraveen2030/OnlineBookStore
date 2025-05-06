@@ -1,5 +1,6 @@
-﻿@inherits LayoutComponentBase
-
+﻿
+@inherits LayoutComponentBase
+@* @rendermode InteractiveServer *@
 @* <main>
         @Body
 </main>
@@ -7,35 +8,50 @@
 
 @inherits LayoutComponentBase *@
 
-<PageTitle>My Library App</PageTitle>
-
+@*  <PageTitle>My Library App</PageTitle> *@
+@* @if (sessionService.IsLoggedIn)
+{
+	<p>Welcome, <strong>@sessionService.UserEmail</strong></p>
+}
+else
+{
+	<p><em>Not logged in</em></p>
+}  *@
 <div class="page">
-    <div class="top-row px-4 bg-dark text-white">
-        <nav class="navbar navbar-expand">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="">Home</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="aboutus">Add Books</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="removebooks">Remove Books</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="aboutus">About Us</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="register">Register</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="logout">Logout</NavLink>
-                </li>
-            </ul>
-        </nav>
-    </div>
+	@* @if (sessionService.IsLoggedIn)
+	{ *@
+		@* <div class="top-row px-4 bg-dark text-white">
+			<nav class="navbar navbar-expand">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="dashboard">Dashboard</NavLink>
+					</li>
 
-    <div class="content px-4">
-        @Body
-    </div>
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="addbooks">Add Books</NavLink>
+					</li>
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="searchbooks">Search Books</NavLink>
+					</li> 
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="aboutus">About Us</NavLink>
+				</li>
+				<li class="nav-item">
+					<NavLink class="nav-link text-white" href="aboutusone">About Us</NavLink>
+				</li>
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="register">Register</NavLink>
+					</li>
+					<li class="nav-item">
+						<NavLink class="nav-link text-white" href="logout">Logout</NavLink>
+					</li>
+
+				</ul>
+			</nav>
+		</div> *@
+	@* }  *@
+
+	<div class="content">
+		@Body
+	</div>
 </div>

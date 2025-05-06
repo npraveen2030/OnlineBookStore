@@ -1,0 +1,17 @@
+﻿<h3>BookTile</h3>
+<div class="wishlist-tile">
+    @* <img src="@ImageUrl" alt="@Title" class="product-image" /> *@
+    <div class="tile-body">
+        <h4>@Title</h4>
+        <p class="author">by @Author</p>
+        <p class="price">$@Price</p>
+        <div class="actions">
+            <button @onclick="AddToCart">Add to Cart</button>
+            <button class="remove" @onclick="RemoveFromWishlist">Remove</button>
+        </div>
+    </div>
+</div>
+ 
+@code {
+
+}

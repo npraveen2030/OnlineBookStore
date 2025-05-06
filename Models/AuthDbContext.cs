@@ -15,7 +15,9 @@ public partial class AuthDbContext : DbContext
         : base(options)
     {
     }
-
+    public DbSet<Wishlist> Wishlists { get; set; }
+    public virtual DbSet<Book> Books { get; set; }
+    public virtual DbSet<BookType> BookTypes { get; set; }
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<UserDetail> UserDetails { get; set; }

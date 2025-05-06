@@ -1,64 +1,23 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using BlazorApp.Models.Dtos;
 using BlazorApp.Models.Dtos;
-using BlazorApp.Components.Common;
-using BlazorApp.Models.Entities;
 using Microsoft.JSInterop;
+using BlazorApp.Models.Entities;
+using BlazorApp.Models.Dtos;
+using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
+using static System.Reflection.Metadata.BlobBuilder;
+using System;
+using BlazorApp.Components.Common;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BlazorApp.Components.Pages
 {
-    public partial class SignIn : ComponentBase
+    public partial class Login
     {
-        // SignInModel instance to hold the form data
-        public UserDetailDto SigninFormDetails = new();
-
-        // Redirecting to Register page
-        [Parameter]
-        public EventCallback<string> redirect { get; set; }
-
-        public async Task redirectfunction()
-        {
-            await redirect.InvokeAsync("Register");
-        }
-
-         //Method to handle form submission
-        [Inject]
-        private AuthDbContext Context { get; set; } = null!;
-
-        [Inject]
-        private NavigationManager Navigation { get; set; } = null!;
-
-        //[Inject]
-        //private UserSession Session { get; set; } = null!;
-
-        internal async Task HandleSignin()
-        {
-            var user = await Context.UserDetails
-                        .FirstOrDefaultAsync(u => u.UserName == SigninFormDetails.UserName);
-
-            if (user == null)
-            {
-                Console.WriteLine("User not found.");
-                return;
-            }
-
-            else if  (user.Password != SigninFormDetails.Password)
-            {
-                Console.WriteLine("Invalid password.");
-                return;
-            }
-
-            else
-            {
-                Navigation.NavigateTo("/manager");
-            }
-                
-        }
-
         [Inject]
         NavigationManager Nav { get; set; }
-        //[Inject] public AuthDbContext Context { get; set; } = null!;
+        [Inject] public AuthDbContext Context { get; set; } = null!;
         [Inject] public NavigationManager NavManager { get; set; } = null!;
         [Inject] public IJSRuntime JS { get; set; } = null!;
 
@@ -91,7 +50,7 @@ namespace BlazorApp.Components.Pages
             {
                 errorMessage = "Invalid email or password.";
             }
-
+             
         }
     }
 }

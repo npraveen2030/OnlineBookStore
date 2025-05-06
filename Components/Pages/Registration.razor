@@ -1,8 +1,7 @@
 ﻿<!-- Registration -->
 @rendermode InteractiveServer
 @using System.ComponentModel.DataAnnotations
-
-<EditForm Model="@RegFormDetails" OnValidSubmit="HandleRegister">
+    <EditForm Model="@RegFormDetails" OnValidSubmit="HandleRegister" FormName="RedBookForm">
     <DataAnnotationsValidator /> 
 
     <div class="input_container"> 

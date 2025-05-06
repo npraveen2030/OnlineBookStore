@@ -1,0 +1,47 @@
+﻿body {
+}
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.product-tile {
+    width: 220px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.5rem;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 0.5rem;
+}
+
+.tile-content h4 {
+    margin: 0.5rem 0;
+}
+
+.tile-content .price {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.actions button {
+    margin: 0.2rem;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .actions button:first-child {
+        background-color: #dc3545; /* red for wishlist */
+    }

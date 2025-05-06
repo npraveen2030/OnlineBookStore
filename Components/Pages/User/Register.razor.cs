@@ -2,14 +2,12 @@
 using BlazorApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorApp.Components.Pages
+namespace BlazorApp.Components.Pages.User
 {
     public partial class Register
     {
         //@inject IUserService UserService
 
-        [Inject]
-        NavigationManager Nav { get; set; }
         [Inject] public AuthDbContext Context { get; set; } = null!;
         private RegistrationModel registrationModel = new();
         protected string Message = string.Empty;
@@ -49,10 +47,5 @@ namespace BlazorApp.Components.Pages
             }
         }
          
-
-        public void RediectToLogin()
-        {
-            Nav.NavigateTo("/"); // redirect
-        }
     }
 }
