@@ -33,6 +33,7 @@ namespace BlazorApp
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
