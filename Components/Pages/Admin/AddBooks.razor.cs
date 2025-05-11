@@ -52,6 +52,7 @@ namespace BlazorApp.Components.Pages.Admin
  
         private async Task SaveBook()
         {
+            book.IsActive = true;
             Context.Books.Add(book);
             await Context.SaveChangesAsync();
             message = "Book saved successfully!";
