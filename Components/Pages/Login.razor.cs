@@ -1,26 +1,12 @@
-﻿using BlazorApp.Models.Dtos;
+﻿using BlazorApp.Components.Common;
 using BlazorApp.Models.Dtos;
-using Microsoft.JSInterop;
 using BlazorApp.Models.Entities;
-using BlazorApp.Models.Dtos;
 using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
-using System;
-using BlazorApp.Components.Common;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BlazorApp.Components.Pages
 {
     public partial class Login
     {
-        public string activeTab = "SignIn";
-
-        public void SetActiveTab(string tab)
-        {
-            activeTab = tab;
-        }
         [Inject]
         NavigationManager Nav { get; set; }
         [Inject] public AuthDbContext Context { get; set; } = null!;
@@ -40,10 +26,8 @@ namespace BlazorApp.Components.Pages
 
         private async Task HandleLogin()
         {
-            //var user = await AuthService.ValidateUserAsync(model.Email, model.Password);
             var userObj = await Context.Users
                 .Where(u => u.Username == model.Email && u.Password == model.Password)
-                //.Select(a=>a.Password)
                 .FirstOrDefaultAsync();
             if (userObj != null)
             {
@@ -70,11 +54,11 @@ namespace BlazorApp.Components.Pages
         }
         private void ResetForm()
         {
-            model = new LoginModel(); // Reset fields
+            model = new LoginModel(); 
         }
         public void Registeruser()
         {
-            Nav.NavigateTo("/userregister"); // redirect
+            Nav.NavigateTo("/userregister");
 
         }
     }

@@ -1,7 +1,6 @@
 ﻿using BlazorApp.Components.Common;
 using BlazorApp.Models.Dtos;
 using BlazorApp.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
 
 namespace BlazorApp.Components.Pages.User

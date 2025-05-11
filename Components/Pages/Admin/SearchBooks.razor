@@ -1,89 +1,86 @@
 ﻿@page "/adminsearchbooks"
 @rendermode InteractiveServer
 <div class="page">
-    <div class="top-row px-4 bg-dark text-white">
-        <nav class="navbar navbar-expand">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="admindashboard">Dashboard</NavLink>
-                </li>
-
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="adminaddbooks">Add Books</NavLink>
-                </li>
-               @*  <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="adminaboutus">AboutUs</NavLink>
-                </li> *@
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="adminsearchbooks">Search Books</NavLink>
-                </li>
-                @* <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="admindashboard">Dashboard</NavLink>
-                </li> *@
-                @* <li class="nav-item">
-					<NavLink class="nav-link text-white" href="register">Register</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="logout">Logout</NavLink>
-				</li> *@
-
-            </ul>
-        </nav>
-    </div>
-    @* <div class="content">
-		@Body
-	</div> *@
+	<div class="top-row px-4 bg-dark text-white">
+		<AdminMenu></AdminMenu>
+	</div>
 </div>
-<h3 class="mb-2">Search Books</h3>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<h3 class="mb-2">Search Books</h3>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<div>
+			<div class="mb-3">
+				<input class="form-control" placeholder="Search by title or author..." @bind="searchText" @bind:event="oninput" />
+			</div>
 
-<div class="mb-3">
-    <input class="form-control" placeholder="Search by title or author..." @bind="searchText" @bind:event="oninput" />
+			<div class="mb-3">
+				<select class="form-select" @bind="selectedTypeId">
+					<option value="">All Types</option>
+					@foreach (var type in bookTypes)
+					{
+						<option value="@type.TypeId">@type.TypeName</option>
+					}
+				</select>
+			</div>
+			<button class="btn btn-primary mb-3" @onclick="SearchBooksGrid">Search</button>
+		</div>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Author</th>
+					<th>Type</th>
+					<th>Price</th>
+					<th>Stock</th>
+				</tr>
+			</thead>
+			<tbody>
+				@if (filteredBooks?.Any() == true)
+				{
+					@foreach (var book in filteredBooks)
+					{
+						<tr>
+							<td>@book.Title</td>
+							<td>@book.AuthorName</td>
+							<td>@book.BookTypeName</td>
+							<td>@book.Price</td>
+							<td>@book.StockQuantity</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td colspan="5" class="text-center">No books found.</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10"></div>
+	<div class="col-1"></div>
 </div>
 
-<div class="mb-3">
-    <select class="form-select" @bind="selectedTypeId">
-        <option value="">All Types</option>
-        @foreach (var type in bookTypes)
-        {
-            <option value="@type.TypeId">@type.TypeName</option>
-        }
-    </select>
-</div>
 
-<button class="btn btn-primary mb-3" @onclick="SearchBooksGrid">Search</button>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (filteredBooks?.Any() == true)
-        {
-            @foreach (var book in filteredBooks)
-            {
-                <tr>
-                    <td>@book.Title</td>
-                    <td>@book.AuthorName</td>
-                    <td>@book.BookTypeName</td>
-                    <td>@book.Price</td>
-                    <td>@book.StockQuantity</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" class="text-center">No books found.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+
 @code {
 
 }

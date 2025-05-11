@@ -17,6 +17,7 @@ namespace BlazorApp.Components.Pages.User
         protected override async Task OnInitializedAsync()
         {
             await GetWishList();
+            await GetCartDetails();
         }
 
         private async Task GetWishList()
@@ -48,22 +49,21 @@ namespace BlazorApp.Components.Pages.User
                                 })
                           .ToList();
 
-            if (UserId > 0)
-            {
-                cartItems = await Context.Carts
-                    .Where(c => c.UserId == UserId)
-                    .Include(c => c.Book)
-                    .Take(20)
-                    .ToListAsync();
-            }
-            else
-            {
-                cartItems = new List<Cart>();
-            }
+          
+
+        }
+        private async Task GetCartDetails()
+        {
+
+            cartItems = await Context.Carts
+                .Where(c => c.UserId == UserId)
+                .Include(c => c.Book)
+                .Include(u => u.User)
+                .Take(20)
+                .ToListAsync();
             RecalculateTotal();
 
         }
-
         private async Task ToggleWishlistDto(WishlistDto wishlist)
         {
             Context.Wishlists.RemoveRange(Context.Wishlists.Where(b => b.WishlistId == wishlist.WishlistId));

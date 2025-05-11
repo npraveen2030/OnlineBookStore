@@ -1,5 +1,6 @@
-﻿@page "/register"
-@rendermode InteractiveServer 
+﻿@page "/userregister"
+@rendermode InteractiveServer
+
 <h2 class="title">Enter the Registration Details</h2>
 
 <div class="register-container">
@@ -29,8 +30,8 @@
 
         <div class="form-group">
             <label>Address:</label>
-            <InputTextArea @bind-Value="registrationModel.Address"  style="width:200px"/>
-        </div> 
+            <InputTextArea @bind-Value="registrationModel.Address" style="width:200px" />
+        </div>
 
         <div class="form-group">
             <label>Mobile No :</label>
@@ -39,21 +40,21 @@
 
         <div class="form-group">
             <InputCheckbox @bind-Value="registrationModel.AcceptTerms" />
-            <span>I ACCEPT ALL TERMS & CONDITIONS</span>
+            <span>&nbsp;&nbsp;I ACCEPT ALL TERMS & CONDITIONS</span>
         </div>
 
         <button type="submit">REGISTER ME</button>
+        <p class="mt-2 text-center">
+            <a href="/login">Back to Login</a>
+        </p>
         @if (!string.IsNullOrWhiteSpace(message))
         {
             <div class="alert alert-success mt-3">@message</div>
         }
     </EditForm>
 
-    <button class="btn btn-primary" @onclick="RediectToLogin">Regoster</button>
-    @* <button type="button" @onclick="HandleRegister1">REGISTER ME</button> *@
     @if (!string.IsNullOrWhiteSpace(Message))
     {
         <p style="color: blue;">@Message</p>
     }
 </div>
- 
