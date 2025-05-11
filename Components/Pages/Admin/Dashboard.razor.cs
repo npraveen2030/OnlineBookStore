@@ -19,7 +19,7 @@ namespace BlazorApp.Components.Pages.Admin
                 sessionService.Role = sessionService.Role;
                 //sessionService.UserEmail = user.Email;
                 //Session.FullName = user.FullName;
-                sessionService.SetUser(sessionService.UserEmail, "");
+                sessionService.SetUser(sessionService.UserId,sessionService.UserEmail,sessionService.Role);
 
             }
         }

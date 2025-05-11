@@ -3,135 +3,92 @@
 <div class="page">
 	<div class="top-row px-4 bg-dark text-white">
 		<nav class="navbar navbar-expand">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientdashboard">Dashboard</NavLink>
-				</li>
-
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientaddtocard">AddToCart</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientpayment">Payment</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientsearchbooks">Search Books</NavLink>
-				</li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="userregister">Register</NavLink>
-                </li>
-				@* <li class="nav-item">
-					<NavLink class="nav-link text-white" href="register">Register</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="logout">Logout</NavLink>
-				</li> *@
-
-			</ul>
+			<UserMenu></UserMenu>
 		</nav>
+	</div> 
+</div>
+<div class="row mt-3">
+	<div class="col-3"></div>
+	<div class="col-3"></div>
+	<div class="col-3"></div>
+</div>
+<div class="row mt-3">
+	<div class="col-3"></div>
+	<div class="col-6">
+
+		<h3 class="mb-2 p-1">Search Books</h3>
+		<input class="form-control" placeholder="Search by title or author..." @bind="searchText" @bind:event="oninput" />
 	</div>
-	@* <div class="content">
-		@Body
-	</div> *@
+	<div class="col-3">
+
+		@if (cartCount > 0)
+		{
+			<div class="cart-info">
+				<button class="cart-button" @onclick="NavigateToCart">
+					Cart <i class="fas fa-shopping-cart"></i> 
+					<span class="cart-badge">@cartCount</span>
+				</button>
+			</div>
+		}
+	</div>
 </div>
-<h3 class="mb-2">Search Books</h3>
-
-<div class="mb-3">
-    <input class="form-control" placeholder="Search by title or author..." @bind="searchText" @bind:event="oninput" />
+<div class="row mt-3">
+	<div class="col-3"></div>
+	<div class="col-6">
+		<select class="form-select" @bind="selectedTypeId">
+			<option value="">All Types</option>
+			@foreach (var type in bookTypes)
+			{
+				<option value="@type.TypeId">@type.TypeName</option>
+			}
+		</select>
+	</div>
+	<div class="col-3"></div>
+</div>
+<div class="row mt-3">
+	<div class="col-3"></div>
+	<div class="col-6"><button class="btn btn-primary mb-3" @onclick="SearchBooksGrid">Search</button></div>
+	<div class="col-3"></div>
 </div>
 
-<div class="mb-3">
-    <select class="form-select" @bind="selectedTypeId">
-        <option value="">All Types</option>
-        @foreach (var type in bookTypes)
-        {
-            <option value="@type.TypeId">@type.TypeName</option>
-        }
-    </select>
+
+<div class="container mt-4">
+	@if (filteredBooks == null || !filteredBooks.Any())
+	{
+		<div class="text-center">
+			<p>No records found.</p>
+		</div>
+	}
+	else
+	{
+		<div class="row">
+			@foreach (var book in filteredBooks)
+			{
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 shadow-sm">
+						<img src="@book.ImageUrl" class="card-img-top" style="height:150px;width:100%" alt="@book.Title">
+						<div class="card-body text-center">
+							<h5 class="card-title">Title: @book.Title</h5>
+							<h6 class="card-subtitle mb-2 text-muted">Author : @book.AuthorName</h6>
+							@* <p class="card-text pb-0">Price: @book.Price</p> *@
+							<h6 class="card-subtitle mb-2 text-muted">Price: @book.Price</h6>
+							<p class="card-text">Type: @book.BookTypeName</p>
+						</div>
+						<div class="actions text-center mb-2">
+							@* <button >❤️ Wishlist</button> *@
+							<button @onclick="() => ToggleWishlistDto(book)" class="wishlist-btn">
+								<span class="heart">@((book.WishlistInfo.IsWishlisted ? "❤️" : "🤍"))</span>
+							</button>
+							<button @onclick="() => AddToCart(book)">🛒 Add to Cart</button>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
 </div>
-
-<button class="btn btn-primary mb-3" @onclick="SearchBooksGrid">Search</button>
-
-@* @inject Blazored.LocalStorage.ILocalStorageService localStorage *@
-
-<h3>Your Book Wishlist</h3>
-@* 
-@if (filteredBooks.Any())
-{
-    <div class="wishlist-container">
-        @foreach (var bookres in filteredBooks)
-        {
-            <BookTile Title="@bookres.Title"
-                      Author="@bookres.AuthorName"
-                      ImageUrl=""
-                      Price="@bookres.Price"
-                      OnAddToCart="() => AddToCart(bookres)"
-                      OnRemoveFromWishlist="() => RemoveFromWishlist(bookres)" />
-        }
-    </div>
-}
-else
-{
-    <p>Your wishlist is empty.</p>
-} *@
-
-<div class="product-container">
-    @foreach (var bookRec in filteredBooks)
-    {
-        <div class="product-tile">
-            @* <img src="@book.ImageUrl" alt="@book.Title" class="product-image" /> *@
-            <div class="tile-content">
-                <h4>@bookRec.Title</h4>
-                <p class="author">by @bookRec.AuthorName</p>
-                <p class="price">$@bookRec.Price</p>
-                <div class="actions">
-                    <button @onclick="() => AddToWishlist(bookRec)">❤️ Wishlist</button>
-                    <button @onclick="() => AddToCart(bookRec)">🛒 Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    }
-</div>
-@*
-<BookTile Title="@book.Title"
-          Author="@book.AuthorName"
-          ImageUrl=""
-          Price="@book.Price"
-         OnAddToCart="() => AddToCart(book.BookId)"
-          OnRemoveFromWishlist="() => RemoveFromWishlist(book.BookId)" />*@ 
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Type</th>
-            <th>Price</th>
-            <th>Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (filteredBooks?.Any() == true)
-        {
-            @foreach (var book in filteredBooks)
-            {
-                <tr>
-                    <td>@book.Title</td>
-                    <td>@book.AuthorName</td>
-                    <td>@book.BookTypeName</td>
-                    <td>@book.Price</td>
-                    <td>@book.StockQuantity</td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" class="text-center">No books found.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<br />
+<br />
 @code {
 
 }

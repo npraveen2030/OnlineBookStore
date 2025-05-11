@@ -1,33 +1,9 @@
 ﻿@page "/clientaboutus"
 <div class="page">
 	<div class="top-row px-4 bg-dark text-white">
-		<nav class="navbar navbar-expand">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientdashboard">Dashboard</NavLink>
-				</li>
-
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientaddtocard">AddToCart</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientpayment">Payment</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="clientsearchbooks">Search Books</NavLink>
-				</li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="userregister">Register</NavLink>
-                </li>
-				@* <li class="nav-item">
-					<NavLink class="nav-link text-white" href="register">Register</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="logout">Logout</NavLink>
-				</li> *@
-
-			</ul>
-		</nav>
+        <nav class="navbar navbar-expand">
+            <UserMenu></UserMenu>
+        </nav>
 	</div>
 	@* <div class="content">
 		@Body

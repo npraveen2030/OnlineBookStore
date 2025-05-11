@@ -20,24 +20,24 @@ namespace BlazorApp.Components.Pages.User
         {
             try
             {
-                //var userObj = new User
-                //{
-                //    Username = registrationModel.Email,
-                //    Password = registrationModel.Password,
-                //    Firstname = registrationModel.FirstName,
-                //    Lastname = registrationModel.LastName,
-                //    Address = registrationModel.Address,
-                //    Phone = registrationModel.Mobile,
-                //    MailId = registrationModel.Email,
-                //    UserType = 2
-                //};
-                ////await Context.Users.Add(newUser);
-                ////users = await UserService.GetUsersAsync();
-                ////newUser = new(); // Clear form
+                var userObj = new BlazorApp.Models.Entities.User
+                {
+                    Username = registrationModel.Email,
+                    Password = registrationModel.Password,
+                    Firstname = registrationModel.FirstName,
+                    Lastname = registrationModel.LastName,
+                    Address = registrationModel.Address,
+                    Phone = registrationModel.Mobile,
+                    MailId = registrationModel.Email,
+                    UserType = 2
+                };
+                //await Context.Users.Add(newUser);
+                //users = await UserService.GetUsersAsync();
+                //newUser = new(); // Clear form
 
-                //Context.Users.Add(userObj);
-                //await Context.SaveChangesAsync();
-                //message = "User registered successfully!";
+                Context.Users.Add(userObj);
+                await Context.SaveChangesAsync();
+                message = "User registered successfully!";
 
 
             }

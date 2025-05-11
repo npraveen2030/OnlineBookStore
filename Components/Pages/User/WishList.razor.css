@@ -47,7 +47,7 @@
         background-color: #dc3545; /* red for wishlist */
     }
 
- 
+
 
 #cart-btn {
     background: #339af0;
@@ -60,6 +60,7 @@
         box-shadow: 0 8px 20px rgba(28, 126, 214, 0.75);
         transform: translateY(-2px);
     }
+
 .cart-info {
     display: flex;
     justify-content: flex-end;

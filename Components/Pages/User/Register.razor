@@ -1,39 +1,6 @@
 ﻿@page "/userregister"
 @rendermode InteractiveServer
-<div class="page">
-    <div class="top-row px-4 bg-dark text-white">
-        <nav class="navbar navbar-expand">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="clientdashboard">Dashboard</NavLink>
-                </li>
-
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="clientaddtocard">AddToCart</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="clientpayment">Payment</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="clientsearchbooks">Search Books</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link text-white" href="userregister">Register</NavLink>
-                </li>
-                @* <li class="nav-item">
-					<NavLink class="nav-link text-white" href="register">Register</NavLink>
-				</li>
-				<li class="nav-item">
-					<NavLink class="nav-link text-white" href="logout">Logout</NavLink>
-				</li> *@
-
-            </ul>
-        </nav>
-    </div>
-    @* <div class="content">
-		@Body
-	</div> *@
-</div>
+ 
 <h2 class="title">Enter the Registration Details</h2>
 
 <div class="register-container">
@@ -73,10 +40,13 @@
 
         <div class="form-group">
             <InputCheckbox @bind-Value="registrationModel.AcceptTerms" />
-            <span>I ACCEPT ALL TERMS & CONDITIONS</span>
+            <span>&nbsp;&nbsp;I ACCEPT ALL TERMS & CONDITIONS</span>
         </div>
 
         <button type="submit">REGISTER ME</button>
+        <p class="mt-2 text-center">
+            <a href="/login">Back to Login</a>
+        </p>
         @if (!string.IsNullOrWhiteSpace(message))
         {
             <div class="alert alert-success mt-3">@message</div>

@@ -21,6 +21,7 @@ public partial class AuthDbContext : DbContext
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<UserDetail> UserDetails { get; set; }
+    public virtual DbSet<Cart> Carts { get; set; }
 
     public DbSet<User> Users { get; set; }
 

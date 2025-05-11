@@ -12,18 +12,19 @@ namespace BlazorApp.Components.Common
 
         public event Action? OnChange;
 
-        public void SetUser (string email, string fullName)
+        public void SetUser(int userId, string email, string role)
         {
+            UserId = userId;
             UserEmail = email;
-            //FullName = fullName;
+            Role = role;
             NotifyStateChanged();
         }
 
         public void Logout()
         {
+            UserId = 0;
             UserEmail = null;
-            //Email = null;
-            //FullName = null;
+            Role = string.Empty;
             NotifyStateChanged();
         }
 
