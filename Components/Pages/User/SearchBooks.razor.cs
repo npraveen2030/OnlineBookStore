@@ -81,7 +81,7 @@ namespace BlazorApp.Components.Pages.User
                 Price = u.Price,
                 StockQuantity = u.StockQuantity,
                 PublishedDate = u.PublishedDate,
-                ImageUrl = u.ImageUrl,
+                ImageUrl = u.ImageUrl ?? "",
                 TypeId = u.TypeId,
                 BookTypeName = u.Type != null ? u.Type.TypeName : null,
                 IsActive = true,

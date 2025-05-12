@@ -12,7 +12,10 @@ namespace BlazorApp.Models.Dtos
 
         public int BookId { get; set; }  // Foreign key for Book table
 
-        public int Quantity { get; set; }  // Quantity of the book in the cart
+        public int StockQuantity { get; set; }  // Quantity of the book in the cart
+        public decimal Price { get; set; }  // Quantity of the book in the cart
+        public string ImageUrl { get; set; }  // Quantity of the book in the cart
+        public string Title { get; set; }  // Quantity of the book in the cart
 
         public DateTime DateAdded { get; set; } = DateTime.UtcNow;  // Timestamp when added to the cart
 

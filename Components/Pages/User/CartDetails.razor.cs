@@ -7,7 +7,7 @@ namespace BlazorApp.Components.Pages.User
 {
     public partial class CartDetails
     {
-        private List<Cart> cartItems = new List<Cart>();
+        private List<CartDto> cartItems = new List<CartDto>();
 
         private string searchText = string.Empty;
         private int? selectedTypeId = null;
@@ -36,12 +36,37 @@ namespace BlazorApp.Components.Pages.User
             {
                 cartItems = await Context.Carts
                     .Where(c => c.UserId == UserId && c.IsActive)
-                    .Include(c => c.Book)
+                    .Join(Context.Books,
+                                w => w.BookId,
+                                b => b.BookId,
+                                (w, b) => new CartDto
+                                {
+                                    ImageUrl = b.ImageUrl,
+
+                                    Title = b.Title,
+                                    Price = b.Price,
+                                    StockQuantity = b.StockQuantity
+                                    //BookId = b.BookId,
+                                    //Author = b.AuthorName,
+                                    //Price = b.Price,
+
+                                    ////WishlistId = w.WishlistId,
+                                    //BookId = b.BookId,
+                                    //Title = b.Title,
+                                    //AuthorName = b.AuthorName,
+                                    //StockQuantity = b.StockQuantity,
+                                    //PublishedDate = u.PublishedDate,
+                                    //TypeId = b.TypeId,
+                                    //BookTypeName = b.Type != null ? b.Type.TypeName : null,
+                                    //IsActive = true,
+
+                                })
+                    //.Include(c => c.Book)
                     .ToListAsync();
             }
             else
             {
-                cartItems = new List<Cart>();
+                cartItems = new List<CartDto>();
             }
             RecalculateTotal();
 
@@ -49,7 +74,11 @@ namespace BlazorApp.Components.Pages.User
 
         private void RecalculateTotal()
         {
-            grandTotal = cartItems.Sum(item => item.Book.Price * item.Quantity);
+            if(cartItems != null && cartItems.Count > 0)
+            {
+                grandTotal = cartItems.Sum(item => item.Price * item.StockQuantity);
+
+            }
             StateHasChanged();
         }
 

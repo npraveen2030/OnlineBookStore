@@ -26,35 +26,42 @@ namespace BlazorApp.Components.Pages
 
         private async Task HandleLogin()
         {
-            var userObj = await Context.Users
-                .Where(u => u.Username == model.Email && u.Password == model.Password)
-                .FirstOrDefaultAsync();
-            if (userObj != null)
+            try
             {
-                // Set session-like values
-                sessionService.UserId = userObj.UserId;
-                sessionService.UserEmail = model.Email;
-                sessionService.Role = model.UserType == 1 ? "Admin" : "NonAdmin";
-                //sessionService.UserEmail = user.Email;
-                //Session.FullName = user.FullName;
-                //sessionService.SetUser(model.Email, "");
-                sessionService.SetUser(sessionService.UserId, model.Email, sessionService.Role);
-                //Nav.NavigateTo("/dashboard",true); // redirect
+                var userObj = await Context.Users
+                    .Where(u => u.Username == model.Email && u.Password == model.Password)
+                    .FirstOrDefaultAsync();
+                if (userObj != null)
+                {
+                    // Set session-like values
+                    sessionService.UserId = userObj.UserId;
+                    sessionService.UserEmail = model.Email;
+                    sessionService.Role = model.UserType == 1 ? "Admin" : "NonAdmin";
+                    //sessionService.UserEmail = user.Email;
+                    //Session.FullName = user.FullName;
+                    //sessionService.SetUser(model.Email, "");
+                    //sessionService.SetUser(sessionService.UserId.ToString(), model.Email);
+                    //Nav.NavigateTo("/dashboard",true); // redirect
 
-                if (userObj.UserType == 1)
-                    Nav.NavigateTo("/admindashboard");
+                    if (userObj.UserType == 1)
+                        Nav.NavigateTo("/admindashboard");
+                    else
+                        Nav.NavigateTo("/clientdashboard"); // redirect
+                }
                 else
-                    Nav.NavigateTo("/clientdashboard"); // redirect
+                {
+                    errorMessage = "Invalid email or password.";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                errorMessage = "Invalid email or password.";
-            }
 
+                throw;
+            }
         }
         private void ResetForm()
         {
-            model = new LoginModel(); 
+            model = new LoginModel();
         }
         public void Registeruser()
         {
