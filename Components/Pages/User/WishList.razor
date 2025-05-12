@@ -1,0 +1,48 @@
+﻿@page "/wishlist"
+@rendermode InteractiveServer
+<div class="page">
+	<div class="top-row px-4 bg-dark text-white">
+		<nav class="navbar navbar-expand">
+			<UserMenu></UserMenu>
+		</nav>
+	</div>
+</div>
+<div class="container mt-4">
+	@if (lstWishListDto == null || !lstWishListDto.Any())
+	{
+		<div class="text-center">
+			<p>No records found.</p>
+		</div>
+	}
+	else
+	{
+		<div class="row">
+			@foreach (var wishlist in lstWishListDto)
+			{
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 shadow-sm">
+						<img src="@wishlist.ImageUrl" class="card-img-top" style="height:150px;width:100%" alt="@wishlist.Title">
+						<div class="card-body text-center">
+							<h5 class="card-title">Title: @wishlist.Title</h5>
+							<h6 class="card-subtitle mb-2 text-muted">Author : @wishlist.AuthorName</h6>
+							@* <p class="card-text pb-0">Price: @book.Price</p> *@
+							<h6 class="card-subtitle mb-2 text-muted">Price: @wishlist.Price</h6>
+							<p class="card-text">Type: @wishlist.BookTypeName</p>
+						</div>
+						<div class="actions text-center mb-2">
+							<button @onclick="() => ToggleWishlistDto(wishlist)" class="wishlist-btn">
+								<span class="heart">@((wishlist.IsWishlisted ? "❤️" : "🤍"))</span>
+							</button>
+							@* <button @onclick="() => AddToCart(book)">🛒 Add to Cart</button> *@
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+</div>
+
+@code {
+
+}

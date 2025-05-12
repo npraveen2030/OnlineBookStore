@@ -1,6 +1,6 @@
 using BlazorApp.Components;
 using BlazorApp.Components.Common;
-
+using Blazored.LocalStorage;
 namespace BlazorApp
 {
     public class Program
@@ -16,6 +16,9 @@ namespace BlazorApp
             builder.Services.AddDbContext<AuthDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<SessionService>();
+            //builder.Services.AddBlazoredLocalStorage();
+
+            builder.Services.AddScoped<CartService>();
             builder.Services.AddServerSideBlazor()
                 .AddCircuitOptions(options => 
                 {

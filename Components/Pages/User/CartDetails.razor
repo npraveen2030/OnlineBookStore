@@ -1,0 +1,232 @@
+﻿@page "/cart"
+@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+<div class="page">
+	<div class="top-row px-4 bg-dark text-white">
+		<nav class="navbar navbar-expand">
+			 <UserMenu></UserMenu>
+		</nav>
+	</div>
+	@* <div class="content">
+		@Body
+	</div> *@
+</div>
+<div class="row">
+	<div class="col-3"></div>
+	<div class="col-6">
+
+		@* <EditForm Model="@cartItems"> *@
+		<table class="table table-striped table-bordered">
+			<thead class="table-light">
+				<tr>
+					<th>Image</th>
+					<th>Title</th>
+					<th>Price (₹)</th>
+					<th>Quantity</th>
+					<th>Total (₹)</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in cartItems)
+				{
+					<tr>
+						<td>
+							<img src="@item.Book.ImageUrl" alt="@item.Book.Title" style="width: 50px;" />
+						</td>
+						<td>@item.Book.Title</td>
+						<td>@item.Book.Price</td>
+						<td>
+							<InputNumber @bind-Value="item.Quantity" style="width:100px !important" class="form-control" />
+
+							@* <InputNumber @bind-Value="item.Book.StockQuantity"
+                                     @bind-Value:event="oninput"
+                                     ValueChanged="(val) => OnQuantityChanged(item, val)"
+                                     ValueExpression="() => item.Book.StockQuantity"
+                                     class="form-control" /> *@
+
+							@* <InputNumber Value="item.Quantity"
+											 ValueChanged="OnQuantityChanged(item))"
+											 ValueExpression="() => item.Book.StockQuantity"
+											 class="form-control" /> *@
+
+
+
+
+						</td>
+						<td>@(item.Book.Price * item.Quantity)</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4" class="text-end"><strong>Grand Total:</strong></td>
+					<td><strong>₹@grandTotal</strong></td>
+				</tr>
+			</tfoot>
+		</table>
+		@* </EditForm> *@
+	</div>
+	<div class="col-3"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		<div class="payment-section">
+			<h3>Another payment method</h3>
+
+			<!-- Credit / Debit Card -->
+			<div class="payment-option">
+				<label>
+					<input type="radio" name="payment" id="card" value="IsCreditCardSelected" @onchange="PaymentChanged" checked="@IsCreditCardSelected" />
+					Credit or debit card
+				</label>
+				@if (IsCreditCardSelected)
+				{
+					<div class="card-form">
+						<h3>Add a Credit Card</h3>
+
+						<div class="form-group">
+							<label for="cardNumber">Card Number</label>
+							<input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456">
+						</div>
+
+						<div class="form-group">
+							<label for="cardHolder">Cardholder Name</label>
+							<input type="text" id="cardHolder" placeholder="John Doe">
+						</div>
+
+						<div class="form-row">
+							<div class="form-group">
+								<label for="expDate">Expiration Date</label>
+								<input type="text" id="expDate" maxlength="5" placeholder="MM/YY">
+							</div>
+
+							<div class="form-group">
+								<label for="cvv">CVV</label>
+								<input type="text" id="cvv" maxlength="4" placeholder="123">
+							</div>
+						</div>
+
+						<button class="btn" @onclick="PaymentDone">Make Payment</button>
+
+						<p class="text-success" id="statusMessage"></p>
+					</div>
+					@* <div class="netbanking-details">
+						<div class="card-icons">
+							<img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
+							<img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" />
+							<img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
+							<img src="https://img.icons8.com/color/48/000000/maestro.png" alt="Maestro" />
+							<img src="https://img.icons8.com/color/48/000000/bharatqr-code.png" alt="BharatQR" />
+							<img src="https://img.icons8.com/color/48/000000/rupay.png" alt="RuPay" />
+						</div>
+					</div> *@
+
+				}
+			</div>
+
+			<!-- Net Banking -->
+			@* <div class="payment-option">
+				<label>
+					<input type="radio" name="payment" id="netbanking" value="IsNetBankingSelected" @onchange="PaymentChanged" checked="@IsNetBankingSelected" />
+					Net Banking
+				</label>
+				@if (IsNetBankingSelected)
+				{
+					<div class="netbanking-details">
+						<label for="bank-select">Choose an Option</label><br />
+						<select id="bank-select">
+							<option value="">-- Select Bank --</option>
+							<option value="sbi">State Bank of India</option>
+							<option value="icici">ICICI Bank</option>
+							<option value="hdfc">HDFC Bank</option>
+							<option value="axis">Axis Bank</option>
+						</select>
+					</div>
+				}
+			</div> *@
+
+			<!-- Other UPI Apps -->
+			<div class="payment-option">
+				<label>
+					<input type="radio" name="payment" id="upi" value="IsUpiSelected" @onchange="PaymentChanged" checked="@IsUpiSelected" />
+					Other UPI Apps
+				</label>
+				@if (IsUpiSelected)
+				{
+					<div style="margin-left: 24px;">
+						<p>Please enter your UPI ID</p>
+						<div class="upi-input-group">
+							<input type="text" placeholder="Enter UPI ID" />
+							<button class="verify-button">Verify</button>
+						</div>
+						<p class="upi-note">The UPI ID is in the format of name/phone number@bankname</p>
+					</div>
+
+				}
+			</div>
+
+
+			<!-- Cash on Delivery -->
+			<div class="payment-option">
+				<label>
+					<input type="radio" name="payment" id="cod" value="isCashOnDeliverySelected" @onchange="PaymentChanged" checked="@isCashOnDeliverySelected" />
+					Cash on Delivery/Pay on Delivery
+				</label>
+				<div class="cod-note">
+					Cash, UPI and Cards accepted. <a href="#">Know more.</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+		@if (IsUpiSelected || IsNetBankingSelected || IsCreditCardSelected || isCashOnDeliverySelected)
+		{
+			<button type="button" class="btn-primary" @onclick="PaymentDone">Make Payment</button>
+		}
+	</div>
+	<div class="col-1"></div>
+</div>
+<div class="row">
+	<div class="col-1"></div>
+	<div class="col-10">
+	</div>
+	<div class="col-1"></div>
+</div>
+@* 
+@if (cartItems == null)
+{
+	<p>Loading your cart...</p>
+}
+else if (!cartItems.Any())
+{
+	<p>Your cart is empty.</p>
+}
+else
+{
+	<div class="row">
+		@foreach (var item in cartItems)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<img src="@item.Book.ImageUrl" class="card-img-top" alt="@item.Book.Title" />
+					<div class="card-body">
+						<h5 class="card-title">@item.Book.Title</h5>
+						<p class="card-text"> </p>
+						<p class="card-text"><strong>Price:</strong> ₹@item.Book.Price</p>
+						<p class="card-text"><strong>Quantity:</strong> @item.Quantity</p>
+						<p class="card-text"><strong>Total:</strong> ₹@(item.Book.Price * item.Quantity)</p>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+ *@
+@code {
+
+}

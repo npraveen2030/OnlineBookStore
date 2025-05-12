@@ -1,15 +1,10 @@
 ﻿using BlazorApp.Models.Dtos;
 using BlazorApp.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlazorApp.Components.Pages
 {
     public partial class Register
     {
-        //@inject IUserService UserService
-
-        [Inject]
-        NavigationManager Nav { get; set; }
         [Inject] public AuthDbContext Context { get; set; } = null!;
         private RegistrationModel registrationModel = new();
         protected string Message = string.Empty;
@@ -22,37 +17,28 @@ namespace BlazorApp.Components.Pages
         {
             try
             {
-                //var userObj = new User
-                //{
-                //    Username = registrationModel.Email,
-                //    Password = registrationModel.Password,
-                //    Firstname = registrationModel.FirstName,
-                //    Lastname = registrationModel.LastName,
-                //    Address = registrationModel.Address,
-                //    Phone = registrationModel.Mobile,
-                //    MailId = registrationModel.Email,
-                //    UserType = 2
-                //};
-                ////await Context.Users.Add(newUser);
-                ////users = await UserService.GetUsersAsync();
-                ////newUser = new(); // Clear form
+                var userObj = new BlazorApp.Models.Entities.User
+                {
+                    Username = registrationModel.Email,
+                    Password = registrationModel.Password,
+                    Firstname = registrationModel.FirstName,
+                    Lastname = registrationModel.LastName,
+                    Address = registrationModel.Address,
+                    Phone = registrationModel.Mobile,
+                    MailId = registrationModel.Email,
+                    UserType = 2
+                };
 
-                //Context.Users.Add(userObj);
-                //await Context.SaveChangesAsync();
-                //message = "User registered successfully!";
-
-
+                Context.Users.Add(userObj);
+                await Context.SaveChangesAsync();
+                message = "User registered successfully!";
+                registrationModel = new RegistrationModel();
             }
             catch (Exception ex)
             {
                 Message = $"{ex.Message}";
             }
         }
-         
 
-        public void RediectToLogin()
-        {
-            Nav.NavigateTo("/"); // redirect
-        }
     }
 }

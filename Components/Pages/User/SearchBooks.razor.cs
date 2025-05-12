@@ -1,45 +1,56 @@
-﻿using BlazorApp.Models.Entities;
+﻿using BlazorApp.Components.Common;
 using BlazorApp.Models.Dtos;
-using Microsoft.JSInterop;
 using BlazorApp.Models.Entities;
-using BlazorApp.Models.Dtos;
 using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
-using System;
-using BlazorApp.Models.Dtos;
-using Microsoft.JSInterop;
-using BlazorApp.Models.Entities;
-using BlazorApp.Models.Dtos;
-using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
-using System;
-using System.Net;
-using BlazorApp.Components.Common;
-
-
 
 namespace BlazorApp.Components.Pages.User
-{
+{ 
     public partial class SearchBooks
     {
+        private int quantity = 1;
+        private int UserId = 2;
         private string searchText = string.Empty;
         private int? selectedTypeId = null;
         private List<BookDto> filteredBooks = new();
         private List<BookTypeDto> bookTypes = new();
+        private int cartCount = 0;
+
+        [Inject] public SessionService sessionService { get; set; } = null!;
+
+        [Inject] public NavigationManager Nav { get; set; }
+        [Inject] public CartService CartService{ get; set; } = null!;
+
         [Inject] public AuthDbContext Context { get; set; } = null!;
         [Inject] public NavigationManager NavManager { get; set; } = null!;
         [Inject] public IJSRuntime JS { get; set; } = null!;
 
-        private Book book = new Book { PublishedDate = DateTime.Today };
-        private string message;
         public BookDto BookDtoForm { get; set; } = new();
         public List<BookDto> lstBooksDto { get; set; } = new();
-        private Book? selectedBook;
-        //private List<BookTypeDto> bookTypes = new();
+        private List<Book> books = new();
+
+        private void ToggleWishlistDto(BookDto book)
+        {
+            book.WishlistInfo.IsWishlisted = !book.WishlistInfo.IsWishlisted;
+
+            if (book.WishlistInfo.IsWishlisted)
+            {
+                var wishlistItem = new Wishlist
+                {
+                    UserId = UserId,
+                    BookId = book.BookId,
+                    AddedOn = DateTime.UtcNow
+                };
+
+                Context.Wishlists.Add(wishlistItem);
+                Context.SaveChangesAsync();
+            }
+            else
+            {
+                Context.Wishlists.RemoveRange(Context.Wishlists.Where(b => b.WishlistId == book.WishlistInfo.WishlistId));
+                Context.SaveChangesAsync();
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
             bookTypes = await Context.BookTypes.Select(u => new BookTypeDto
@@ -47,8 +58,7 @@ namespace BlazorApp.Components.Pages.User
                 TypeId = u.TypeId,
                 TypeName = u.TypeName
             }).OrderByDescending(b => b.TypeId).ToListAsync();
-            //bookTypes = await DbContext.BookTypes.ToListAsync();
-            await SearchBooksGrid(); // load all books initially
+            await SearchBooksGrid();
         }
 
         private async Task SearchBooksGrid()
@@ -58,7 +68,7 @@ namespace BlazorApp.Components.Pages.User
                 (string.IsNullOrEmpty(searchText) ||
                  b.Title.Contains(searchText) ||
                  b.AuthorName.Contains(searchText)) ||
-                   (  b.Type.TypeName.Contains(searchText))
+                   (b.Type.TypeName.Contains(searchText))
                 &&
                 (!selectedTypeId.HasValue || b.TypeId == selectedTypeId.Value
                 || b.Type.TypeName.Contains(searchText))
@@ -71,52 +81,25 @@ namespace BlazorApp.Components.Pages.User
                 Price = u.Price,
                 StockQuantity = u.StockQuantity,
                 PublishedDate = u.PublishedDate,
+                ImageUrl = u.ImageUrl,
                 TypeId = u.TypeId,
                 BookTypeName = u.Type != null ? u.Type.TypeName : null,
-                IsActive = true
+                IsActive = true,
+                WishlistInfo = new WishlistDto
+                {
+                    WishlistId = Context.Wishlists
+                    .Where(w => w.BookId == u.BookId && w.UserId == sessionService.UserId)
+                    .Select(w => w.WishlistId)
+                    .FirstOrDefault(),
+                    IsWishlisted = Context.Wishlists
+                    .Any(w => w.BookId == u.BookId && w.UserId == sessionService.UserId)
+                }
             }).OrderByDescending(b => b.BookId)
                 .ToListAsync();
         }
 
-        private List<Book> books = new();
-
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    //books = await localStorage.GetItemAsync<List<Book>>("wishlist") ?? new List<Book>();
-        //}
-
-        //private async Task AddToCart(int id)
-        //{
-        //    // TODO: Add to cart logic
-        //    Console.WriteLine($"Add to cart: {id}");
-        //}
-
-        private async Task RemoveFromWishlist(Book id)
-        {
-            //books.RemoveAll(b => b.Id == id);
-            //await SaveWishlist();
-            Console.WriteLine($"remove to cart: {id}");
-        }
-
-        private async Task SaveWishlist()
-        {
-            //await localStorage.SetItemAsync("wishlist", books);
-        }
-
-        public async Task AddBookToWishlist(Book book)
-        {
-            books.Add(book);
-            await SaveWishlist();
-        }
-        [Inject] public SessionService sessionService { get; set; } = null!;
         public async Task AddToWishlist(BookDto book)
-        {
-            //var wishlist = await localStorage.GetItemAsync<List<Book>>("wishlist") ?? new List<Book>();
-            //if (!wishlist.Any(b => b.Id == book.Id))
-            //{
-            //    wishlist.Add(book);
-            //    await localStorage.SetItemAsync("wishlist", wishlist);
-            //}
+        { 
             var exists = await Context.Wishlists
             .AnyAsync(w => w.UserId == sessionService.UserId && w.BookId == book.BookId);
 
@@ -124,7 +107,7 @@ namespace BlazorApp.Components.Pages.User
             {
                 var wishlist = new Wishlist
                 {
-                    UserId = sessionService.UserId,
+                    UserId = UserId,
                     BookId = book.BookId
                 };
 
@@ -134,13 +117,26 @@ namespace BlazorApp.Components.Pages.User
         }
 
         public async Task AddToCart(BookDto book)
+        { 
+            var cartItem = new Cart
+            {
+                UserId = UserId,
+                BookId = book.BookId,
+                Quantity = quantity,
+                DateAdded = DateTime.UtcNow,
+                UpdatedDate = DateTime.UtcNow
+            };
+
+            Context.Carts.Add(cartItem);
+            Context.SaveChangesAsync();
+
+            cartCount++;
+            CartService.AddToCart(book.BookId, quantity);
+        }
+
+        private void NavigateToCart()
         {
-            //var cart = await localStorage.GetItemAsync<List<Book>>("cart") ?? new List<Book>();
-            //if (!cart.Any(b => b.Id == book.Id))
-            //{
-            //    cart.Add(book);
-            //    await localStorage.SetItemAsync("cart", cart);
-            //}
+            Nav.NavigateTo("/cart");
         }
     }
 }

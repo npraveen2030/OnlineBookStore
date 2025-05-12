@@ -1,15 +1,7 @@
-﻿using BlazorApp.Models.Dtos;
+﻿using BlazorApp.Components.Common;
 using BlazorApp.Models.Dtos;
-using Microsoft.JSInterop;
 using BlazorApp.Models.Entities;
-using BlazorApp.Models.Dtos;
 using Microsoft.JSInterop;
-using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
-using static System.Reflection.Metadata.BlobBuilder;
-using System;
-using BlazorApp.Components.Common;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BlazorApp.Components.Pages
 {
@@ -29,28 +21,46 @@ namespace BlazorApp.Components.Pages
         private List<BookTypeDto> bookTypes = new();
         private LoginModel model = new();
         private string? errorMessage;
+        private string storedValue;
         [Inject] public SessionService sessionService { get; set; } = null!;
 
         private async Task HandleLogin()
         {
-            //var user = await AuthService.ValidateUserAsync(model.Email, model.Password);
-            var user = Context.Users
-            .FirstOrDefaultAsync(u => u.Username == model.Email && u.Password == model.Password);
-            if (user != null)
+            var userObj = await Context.Users
+                .Where(u => u.Username == model.Email && u.Password == model.Password)
+                .FirstOrDefaultAsync();
+            if (userObj != null)
             {
                 // Set session-like values
+                sessionService.UserId = userObj.UserId;
                 sessionService.UserEmail = model.Email;
                 sessionService.Role = model.UserType == 1 ? "Admin" : "NonAdmin";
                 //sessionService.UserEmail = user.Email;
                 //Session.FullName = user.FullName;
+                //sessionService.SetUser(model.Email, "");
+                sessionService.SetUser(sessionService.UserId, model.Email, sessionService.Role);
+                //Nav.NavigateTo("/dashboard",true); // redirect
 
-                Nav.NavigateTo("/dashboard"); // redirect
+                if (userObj.UserType == 1)
+                    Nav.NavigateTo("/admindashboard");
+                else
+                    Nav.NavigateTo("/clientdashboard"); // redirect
             }
             else
             {
                 errorMessage = "Invalid email or password.";
             }
-             
+
+        }
+        private void ResetForm()
+        {
+            model = new LoginModel(); 
+        }
+        public void Registeruser()
+        {
+            Nav.NavigateTo("/userregister");
+
         }
     }
+
 }
