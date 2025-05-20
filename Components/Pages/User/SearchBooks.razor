@@ -80,6 +80,7 @@
 								<span class="heart">@((book.WishlistInfo.IsWishlisted ? "❤️" : "🤍"))</span>
 							</button>
 							<button @onclick="() => AddToCart(book)">🛒 Add to Cart</button>
+							<button @onclick="() => OpenBookDetails(book.BookId)">View Content</button>
 						</div>
 					</div>
 				</div>

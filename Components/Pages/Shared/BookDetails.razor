@@ -1,0 +1,64 @@
+﻿@page "/bookdetails"
+@rendermode InteractiveServer
+
+ 
+<div class="row">
+	<div class="col-2"></div>
+	<div class="col-10">
+		@if (book == null)
+		{
+			<p>Loading...</p>
+		}
+		else
+		{
+			<table class="styled-table">
+				@* <tr>
+					<td style="width:30% !important"></td>
+					<td style="width:70% !important"></td>
+				</tr> *@
+				<tr>
+					<td colspan="2" class="text-center">
+						<h3 class="m-1 ">Book Details</h3>
+					</td>
+				</tr>
+				<tr>
+					<td style="width:30% !important">Image</td>
+					<td style="width:70% !important"><img src="@book.ImageUrl" alt="@book.Title" width="200" height="200" /></td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>@book.Title</td>
+				</tr>
+				<tr>
+					<td>Description</td>
+					<td>@book.Title</td>
+				</tr>
+				<tr>
+					<td>Author</td>
+					<td>@book.AuthorName</td>
+				</tr>
+				<tr>
+					<td>Type</td>
+					<td>@book.BookTypeName</td>
+				</tr>
+				<tr>
+					<td>Price</td>
+					<td>@book.Price.ToString("C")</td>
+				</tr>
+				<tr>
+					<td>Stock</td>
+					<td>@book.StockQuantity</td>
+				</tr>
+				<tr>
+					<td>Published</td>
+					<td>@book.PublishedDate.ToString("yyyy-MM-dd")</td>
+				</tr>
+			</table>
+		}
+	</div>
+	<div class="col-2"></div>
+
+</div>
+@code {
+
+}

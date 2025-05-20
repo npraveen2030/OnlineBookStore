@@ -138,5 +138,10 @@ namespace BlazorApp.Components.Pages.User
         {
             Nav.NavigateTo("/cart");
         }
+        private async Task OpenBookDetails(int bookId)
+        {
+            var url = $"/bookdetails?bookId={bookId}";
+            await JS.InvokeVoidAsync("open", url, "_blank");
+        }
     }
 }

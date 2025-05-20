@@ -41,11 +41,13 @@ namespace BlazorApp.Components.Pages.User
                                 b => b.BookId,
                                 (w, b) => new CartDto
                                 {
+                                    CartId = w.CartId,
                                     ImageUrl = b.ImageUrl,
 
                                     Title = b.Title,
                                     Price = b.Price,
-                                    StockQuantity = b.StockQuantity
+                                    StockQuantity = b.StockQuantity,
+                                    Quantity = w.Quantity
                                     //BookId = b.BookId,
                                     //Author = b.AuthorName,
                                     //Price = b.Price,
@@ -76,7 +78,7 @@ namespace BlazorApp.Components.Pages.User
         {
             if(cartItems != null && cartItems.Count > 0)
             {
-                grandTotal = cartItems.Sum(item => item.Price * item.StockQuantity);
+                grandTotal = cartItems.Sum(item => item.Price * item.Quantity);
 
             }
             StateHasChanged();
@@ -99,6 +101,49 @@ namespace BlazorApp.Components.Pages.User
             await Context.SaveChangesAsync();
 
             Nav.NavigateTo("/paymentcompleted"); // redirect
+        }
+        public int Count { get; set; } = 1;
+        private async Task Increment()
+        {
+            Count++;
+            //await CountChanged.InvokeAsync(Count);
+        }
+
+        private async Task IncrementNew(CartDto item)
+        {
+            item.Quantity++;
+            RecalculateTotal();
+            //await CountChanged.InvokeAsync(Count);
+        }
+
+        private async Task Decrement()
+        {
+            if (Count > 0)
+            {
+                Count--;
+                //await CountChanged.InvokeAsync(Count);
+            }
+        }
+
+        private async Task DecrementNew(CartDto item)
+        {
+            if (item.Quantity > 0)
+            {
+                item.Quantity--;
+                //await CountChanged.InvokeAsync(Count);
+            }
+            else
+            {
+                var itemToDelete = Context.Carts.FirstOrDefault(c => c.CartId == item.CartId);
+
+                if (itemToDelete != null)
+                {
+                    Context.Carts.Remove(itemToDelete);
+                    Context.SaveChanges();
+                    cartItems.RemoveAll(c => c.CartId == item.CartId);
+                }
+            }
+            RecalculateTotal();
         }
     }
 }
