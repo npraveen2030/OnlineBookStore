@@ -37,7 +37,7 @@ namespace BlazorApp.Components.Pages
                     sessionService.UserEmail = model.Email;
                     sessionService.Role = model.UserType == 1 ? "Admin" : "NonAdmin";
                     if (userObj.UserType == 1)
-                        Nav.NavigateTo("/admindashboard");
+                        Nav.NavigateTo("/admindashboardcomp");
                     else
                         Nav.NavigateTo("/clientdashboard");  
                 }

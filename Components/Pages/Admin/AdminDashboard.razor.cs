@@ -3,12 +3,13 @@ using BlazorApp.Models.Dtos;
 using BlazorApp.Models.Entities;
 using Microsoft.JSInterop;
 
+
 namespace BlazorApp.Components.Pages.Admin
 {
-    public partial class Dashboard
+    public partial class AdminDashboard
     {
         public int UserId = 2;
-        private List<Cart> cartItems = new List<Cart>();
+        private List<CartDto> cartItems = new List<CartDto>();
         private string searchText = string.Empty;
         private int? selectedTypeId = null;
         private List<BookDto> filteredBooks = new();
@@ -59,7 +60,7 @@ namespace BlazorApp.Components.Pages.Admin
                                     Title = b.Title,
                                     AuthorName = b.AuthorName,
                                     Price = b.Price,
-                                    ImageUrl = b.ImageUrl,
+                                    ImageUrl = b.ImageUrl ?? "",
 
                                 })
                           .ToList();
@@ -69,11 +70,21 @@ namespace BlazorApp.Components.Pages.Admin
         {
 
             cartItems = await Context.Carts
-                .Where(c => c.UserId == UserId)
-                .Include(c => c.Book)
-                .Include(u => u.User)
-                .Take(20)
-                .ToListAsync();
+                    .Where(c => c.UserId == UserId && c.IsActive)
+                    .Join(Context.Books,
+                                w => w.BookId,
+                                b => b.BookId,
+                                (w, b) => new CartDto
+                                {
+                                    CartId = w.CartId,
+                                    ImageUrl = b.ImageUrl,
+                                    Title = b.Title,
+                                    Price = b.Price,
+                                    StockQuantity = b.StockQuantity,
+                                    Quantity = w.Quantity,
+                                    User = w.User
+                                })
+                    .ToListAsync();
             RecalculateTotal();
 
         }
@@ -82,7 +93,7 @@ namespace BlazorApp.Components.Pages.Admin
 
         private void RecalculateTotal()
         {
-            grandTotal = cartItems.Sum(item => item.Book.Price * item.Quantity);
+            grandTotal = cartItems.Sum(item => item.Price * item.Quantity);
             StateHasChanged();
         }
 
