@@ -30,8 +30,9 @@ namespace BlazorApp.Components.Pages.Shared
                             {
                                 Title = u.Title,
                                 ImageUrl = u.ImageUrl,
+                                ContentImage = u.ContentImage,
                                 AuthorName = u.AuthorName,
-                                Description = u.Description,
+                                Description = u.Description ?? "",
                                 Price = u.Price,
                                 BookTypeName = u.Type != null ? u.Type.TypeName : null,
 

@@ -1,7 +1,7 @@
 ﻿@page "/bookdetails"
 @rendermode InteractiveServer
 
- 
+
 <div class="row">
 	<div class="col-2"></div>
 	<div class="col-10">
@@ -23,7 +23,13 @@
 				</tr>
 				<tr>
 					<td style="width:30% !important">Image</td>
-					<td style="width:70% !important"><img src="@book.ImageUrl" alt="@book.Title" width="200" height="200" /></td>
+					<td style="width:70% !important">
+						<img src="@book.ImageUrl" alt="@book.Title" style="width:250px;height:250px" />
+					</td>
+				</tr>
+				<tr>
+					<td>Content</td>
+					<td><img src="@book.ContentImage" style="width:250px;height:250px" /></td>
 				</tr>
 				<tr>
 					<td>Title</td>
