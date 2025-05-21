@@ -34,7 +34,7 @@
 							<td>
 								@item.User.Lastname   @item.User.Firstname
 							</td>
-							<td>@item.DateAdded.ToString("dd/MM/yyyy")</td>
+							<td>@item.DateAdded?.ToString("dd/MM/yyyy")</td>
 							<td>
 								<img src="@item.Book.ImageUrl" alt="@item.Book.Title" style="width: 50px;" />
 							</td>

@@ -18,7 +18,7 @@ namespace BlazorApp.Models.Dtos
         public string ImageUrl { get; set; }  // Quantity of the book in the cart
         public string Title { get; set; }  // Quantity of the book in the cart
 
-        public DateTime DateAdded { get; set; } = DateTime.UtcNow;  // Timestamp when added to the cart
+        public DateTime? DateAdded { get; set; } = DateTime.UtcNow;  // Timestamp when added to the cart
 
         public bool IsActive { get; set; } = true;  // Status of the item in the cart (active or removed)
 

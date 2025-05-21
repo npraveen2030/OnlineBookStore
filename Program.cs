@@ -37,7 +37,7 @@ namespace BlazorApp
             }
 
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseAntiforgery();

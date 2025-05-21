@@ -18,11 +18,11 @@ namespace BlazorApp.Models.Entities
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1")]
         public int Quantity { get; set; }  // Quantity of the book in the cart
 
-        public DateTime DateAdded { get; set; } = DateTime.UtcNow;  // Timestamp when added to the cart
+        public DateTime? DateAdded { get; set; } = DateTime.UtcNow;  // Timestamp when added to the cart
 
         public bool IsActive { get; set; } = true;  // Status of the item in the cart (active or removed)
 
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;  // Timestamp of the last update to the cart item
+        public DateTime? UpdatedDate { get; set; } = DateTime.UtcNow;  // Timestamp of the last update to the cart item
 
         // Navigation properties
         public virtual User User { get; set; }  // Navigation property to User

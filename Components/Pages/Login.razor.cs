@@ -33,20 +33,13 @@ namespace BlazorApp.Components.Pages
                     .FirstOrDefaultAsync();
                 if (userObj != null)
                 {
-                    // Set session-like values
                     sessionService.UserId = userObj.UserId;
                     sessionService.UserEmail = model.Email;
                     sessionService.Role = model.UserType == 1 ? "Admin" : "NonAdmin";
-                    //sessionService.UserEmail = user.Email;
-                    //Session.FullName = user.FullName;
-                    //sessionService.SetUser(model.Email, "");
-                    //sessionService.SetUser(sessionService.UserId.ToString(), model.Email);
-                    //Nav.NavigateTo("/dashboard",true); // redirect
-
                     if (userObj.UserType == 1)
                         Nav.NavigateTo("/admindashboard");
                     else
-                        Nav.NavigateTo("/clientdashboard"); // redirect
+                        Nav.NavigateTo("/clientdashboard");  
                 }
                 else
                 {

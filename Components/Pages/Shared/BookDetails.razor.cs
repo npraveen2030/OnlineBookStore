@@ -17,9 +17,6 @@ namespace BlazorApp.Components.Pages.Shared
         [Inject] public IJSRuntime JS { get; set; } = null!;
         protected override async Task OnInitializedAsync()
         {
-            //books = await Context.Books
-            //          .Where(b => b.BookId == true)
-            //          .ToListAsync();
             try
             {
                 var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
@@ -31,7 +28,6 @@ namespace BlazorApp.Components.Pages.Shared
                     var  bookss = await Context.Books
                             .Where(x => x.BookId == bookId).Select(u => new BookDto()
                             {
-                                //BookId = u.BookId,
                                 Title = u.Title,
                                 ImageUrl = u.ImageUrl,
                                 AuthorName = u.AuthorName,

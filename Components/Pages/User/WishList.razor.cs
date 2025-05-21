@@ -1,7 +1,4 @@
-﻿using BlazorApp.Components.Common;
-using BlazorApp.Models.Dtos;
-using BlazorApp.Models.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using BlazorApp.Models.Dtos;
 using Microsoft.JSInterop;
 
 namespace BlazorApp.Components.Pages.User
@@ -30,21 +27,12 @@ namespace BlazorApp.Components.Pages.User
                                 b => b.BookId,
                                 (w, b) => new WishlistDto
                                 {
-                                    //BookId = b.BookId,
-                                    //Author = b.AuthorName,
-                                    //Price = b.Price,
-
                                     WishlistId = w.WishlistId,
                                     BookId = b.BookId,
                                     Title = b.Title,
                                     AuthorName = b.AuthorName,
                                     Price = b.Price,
-                                    //StockQuantity = b.StockQuantity,
-                                    //PublishedDate = u.PublishedDate,
                                     ImageUrl = b.ImageUrl,
-                                    //TypeId = b.TypeId,
-                                    //BookTypeName = b.Type != null ? b.Type.TypeName : null,
-                                    //IsActive = true,
 
                                 })
                           .ToList();
@@ -56,9 +44,7 @@ namespace BlazorApp.Components.Pages.User
             Context.Wishlists.RemoveRange(Context.Wishlists.Where(b => b.WishlistId == wishlist.WishlistId));
             Context.SaveChangesAsync();
 
-            // Remove from the in-memory list so UI updates
             lstWishListDto.RemoveAll(c => c.WishlistId == wishlist.WishlistId);
-            //GetWishList();
         }
     }
 }

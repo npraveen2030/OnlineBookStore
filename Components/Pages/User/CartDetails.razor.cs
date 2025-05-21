@@ -43,27 +43,12 @@ namespace BlazorApp.Components.Pages.User
                                 {
                                     CartId = w.CartId,
                                     ImageUrl = b.ImageUrl,
-
                                     Title = b.Title,
                                     Price = b.Price,
                                     StockQuantity = b.StockQuantity,
                                     Quantity = w.Quantity
-                                    //BookId = b.BookId,
-                                    //Author = b.AuthorName,
-                                    //Price = b.Price,
-
-                                    ////WishlistId = w.WishlistId,
-                                    //BookId = b.BookId,
-                                    //Title = b.Title,
-                                    //AuthorName = b.AuthorName,
-                                    //StockQuantity = b.StockQuantity,
-                                    //PublishedDate = u.PublishedDate,
-                                    //TypeId = b.TypeId,
-                                    //BookTypeName = b.Type != null ? b.Type.TypeName : null,
-                                    //IsActive = true,
 
                                 })
-                    //.Include(c => c.Book)
                     .ToListAsync();
             }
             else
@@ -106,14 +91,12 @@ namespace BlazorApp.Components.Pages.User
         private async Task Increment()
         {
             Count++;
-            //await CountChanged.InvokeAsync(Count);
         }
 
         private async Task IncrementNew(CartDto item)
         {
             item.Quantity++;
             RecalculateTotal();
-            //await CountChanged.InvokeAsync(Count);
         }
 
         private async Task Decrement()
@@ -121,7 +104,6 @@ namespace BlazorApp.Components.Pages.User
             if (Count > 0)
             {
                 Count--;
-                //await CountChanged.InvokeAsync(Count);
             }
         }
 
@@ -130,7 +112,6 @@ namespace BlazorApp.Components.Pages.User
             if (item.Quantity > 0)
             {
                 item.Quantity--;
-                //await CountChanged.InvokeAsync(Count);
             }
             else
             {

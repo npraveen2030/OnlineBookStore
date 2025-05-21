@@ -153,13 +153,11 @@ namespace BlazorApp.Components.Pages
                 query = query.Where(u => u.IsActive == false);
             }
 
-            // Searching
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 query = query.Where(u => u.UserName.Contains(SearchText));
             }
 
-            // Resetting Order
             Ascorder = true;
             IsOrderonCreateDate = false;
             IsOrderonModifyDate = false;
@@ -203,8 +201,6 @@ namespace BlazorApp.Components.Pages
 
         }
 
-        // Ordering
-
         public bool Ascorder { get; set; } = true;
         
         public void Reorder()
@@ -221,7 +217,6 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        // on created date
         public bool IsOrderonCreateDate {  get; set; } = false;
         internal void OrderCreatedDate()
         {
@@ -245,8 +240,6 @@ namespace BlazorApp.Components.Pages
             IsOrderonCreateDate = false;
             Ascorder = true;
         }
-
-        // on modified date
         public bool IsOrderonModifyDate { get; set; } = false;
         internal void OrderModifyDate()
         {
@@ -271,7 +264,6 @@ namespace BlazorApp.Components.Pages
             Ascorder = true;
         }
 
-        // Filtering
 
         public string SelectedFilterValue { get; set; } = "all";
 
@@ -282,7 +274,6 @@ namespace BlazorApp.Components.Pages
             await LoadUsers(pagination.CurrentPage, pagination.PageSize);
         }
 
-        // Adding a User
         internal async Task AddUserSubmitHandler()
         {
             try
@@ -314,7 +305,6 @@ namespace BlazorApp.Components.Pages
             }
         }
 
-        // Editing a user
         public bool Editing { get; set; } = false;
 
         internal async Task HandleEdit(UserDetailDto user)
@@ -354,8 +344,6 @@ namespace BlazorApp.Components.Pages
             user.IsEdit = false;
             Editing = false;
         }
-
-        // Toggling a user
 
         public UserDetailDto? DeleteConfirmationuser { get; set; } 
 

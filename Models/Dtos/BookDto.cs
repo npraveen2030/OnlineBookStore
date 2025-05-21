@@ -12,7 +12,7 @@ namespace BlazorApp.Models.Dtos
         public string ImageUrl { get; set; }
         public decimal Price { get; set; }
         public int StockQuantity { get; set; }
-        public DateTime PublishedDate { get; set; }
+        public DateTime? PublishedDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsWishlisted { get; set; }
         public int? TypeId { get; set; }  // Foreign key

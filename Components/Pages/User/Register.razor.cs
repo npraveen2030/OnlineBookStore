@@ -6,8 +6,6 @@ namespace BlazorApp.Components.Pages.User
 {
     public partial class Register
     {
-        //@inject IUserService UserService
-
         [Inject] public AuthDbContext Context { get; set; } = null!;
         private RegistrationModel registrationModel = new();
         protected string Message = string.Empty;
@@ -31,10 +29,6 @@ namespace BlazorApp.Components.Pages.User
                     MailId = registrationModel.Email,
                     UserType = 2
                 };
-                //await Context.Users.Add(newUser);
-                //users = await UserService.GetUsersAsync();
-                //newUser = new(); // Clear form
-
                 Context.Users.Add(userObj);
                 await Context.SaveChangesAsync();
                 message = "User registered successfully!";
