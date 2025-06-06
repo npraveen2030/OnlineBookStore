@@ -1,4 +1,11 @@
-﻿body {
+﻿/* AdminDashboard.razor.css */
+.dashboard-background {
+    background-image: url('/images/pastel 5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 1500vh;
+    width: 100%;
 }
 
 .product-container {

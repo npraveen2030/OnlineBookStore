@@ -1,2 +1,8 @@
-﻿body {
+﻿.dashboard-background {
+    background-image: url('/images/pastel 5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 400vh;
+    width: 100%;
 }
